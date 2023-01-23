@@ -44,10 +44,9 @@ class PlayerMain{
                     this.velocity.y = 0
                 }
             }
-            if(this.forward){
+            if(this.forward && this.position.x <= innerWidth/2){
                 this.position.x += this.velocity.x
-            }
-            if(this.backward){
+            }else if(this.backward && this.position.x >= 100){
                 this.position.x = this.position.x-this.velocity.x
             }
             this.draw()
@@ -85,6 +84,12 @@ class PlayerMain{
            player.position.x+player.velocity.x <= platform.position.x+platform.size.width 
            ){
             player.velocity.y=0
+        }
+        if(player.forward && player.position.x >= innerWidth/2){
+            platform.position.x -= 10
+        }
+        if(player.backward && player.position.x <= 100){
+            platform.position.x += 10
         }
         requestAnimationFrame(animate)
     }
