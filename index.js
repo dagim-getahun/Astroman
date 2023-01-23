@@ -54,10 +54,10 @@ class PlayerMain{
     }
 
     class Platform{
-        constructor(){
+        constructor(x,y){
             this.position={
-                x:100,
-                y:200
+                x,
+                y
             }
             this.size={
                 width:300,
@@ -72,12 +72,15 @@ class PlayerMain{
 
 
     const player = new PlayerMain()
-    const platform = new Platform()
+    const platforms = [new Platform(100,200),new Platform(500,400),new Platform(700,300)]
     
     function animate(){
         canv.clearRect(0,0,canvas.width,canvas.height)
         player.update()
-        platform.draw()
+        platforms.forEach((platform)=>{
+            platform.draw()
+        })
+        platforms.forEach((platform)=>{
         if(player.position.y+player.size.height <= platform.position.y && 
            player.position.y+player.size.height+player.velocity.y >= platform.position.y &&
            player.position.x+player.size.width >= platform.position.x &&
@@ -85,11 +88,16 @@ class PlayerMain{
            ){
             player.velocity.y=0
         }
+        })
         if(player.forward && player.position.x >= innerWidth/2){
-            platform.position.x -= 10
+            platforms.forEach((platform)=>{
+                platform.position.x -= 10
+            })
         }
         if(player.backward && player.position.x <= 100){
-            platform.position.x += 10
+            platforms.forEach((platform)=>{
+                platform.position.x += 10
+            })
         }
         requestAnimationFrame(animate)
     }
