@@ -14,13 +14,15 @@ class PlayerMain{
             height:50
         }
         this.velocity = {
-            x:0,
+            x:10,
             y:10
         }
         this.gravity = 0.5
         this.jumpAcceleration = 4
         this.jump = false
         this.jumpHeight = 300
+        this.forward=false
+        this.backward=false
     }
         draw(){
             canv.fillStyle='grey'
@@ -42,6 +44,12 @@ class PlayerMain{
                     this.velocity.y = 0
                 }
             }
+            if(this.forward){
+                this.position.x += this.velocity.x
+            }
+            if(this.backward){
+                this.position.x = this.position.x-this.velocity.x
+            }
             this.draw()
         }
     }
@@ -59,8 +67,24 @@ class PlayerMain{
     addEventListener('keydown',(event)=>{
         switch(event.keyCode){
             case 38:
-            player.jump=true
-            player.velocity.y=50
-
+                player.jump=true
+                player.velocity.y=50
+                break
+            case 37:
+                player.backward = true
+                break
+            case 39:
+                player.forward = true
+                break
+        }
+    })
+    addEventListener('keyup',(event)=>{
+        switch(event.keyCode){
+            case 37:
+                player.backward=false
+                break
+            case 39:
+                player.forward=false
+                break
         }
     })
