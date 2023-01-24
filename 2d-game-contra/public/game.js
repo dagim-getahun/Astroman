@@ -1,19 +1,23 @@
 // import ground from './platform.png'
 // console.log(ground)
-const canvas = document.querySelector('canvas')
+const canvas = document.getElementById('screen')
+const platformImg = document.getElementById('platform-1')
+const standing = document.getElementById('standing')
+const running = document.getElementById('running')
+
 canvas.width = innerWidth
-canvas.height = innerHeight/2
+canvas.height = innerHeight*0.7
 const canv = canvas.getContext('2d')
 
 class PlayerMain{
     constructor(){
         this.position = {
             x:100,
-            y:400
+            y:100
         }
         this.size = {
-            width:30,
-            height:100
+            width:60,
+            height:200
         }
         this.velocity = {
             x:5,
@@ -22,15 +26,42 @@ class PlayerMain{
         this.gravity = 1
         this.jumpAcceleration = 4
         this.jump = false
-        this.jumpHeight = this.position.y+50
+        this.jumpHeight = this.position.y+350
         this.forward=false
         this.backward=false
+        this.spriteFrame=0
+        this.playerAnimation={
+            standingRight:{
+                image:standing,
+                cropWidth:177,
+                height:400
+                },
+            runningRight:{
+                image:running,
+                cropWidth:177,
+                height:400
+                }
+        }
+        this.playerState='standingRight'
+        
     }
         draw(){
-            canv.fillStyle='grey'
-            canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+            // canv.fillStyle='grey'
+            // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+            const width=177
+            canv.drawImage(this.playerAnimation[this.playerState].image,
+                this.playerAnimation[this.playerState].cropWidth *this.spriteFrame,
+                0,
+                this.playerAnimation[this.playerState].cropWidth,
+                this.playerAnimation[this.playerState].height,
+                this.position.x,
+                this.position.y,
+                this.size.width,
+                this.size.height)
         }
         update(){
+            this.spriteFrame = this.spriteFrame===28?0:this.spriteFrame+1
+
             if(this.jump){
                 this.position.y -= this.velocity.y
                 if(this.velocity.y > 0 && this.position.y+this.size.height+this.velocity.y >= canvas.height-this.jumpHeight){
@@ -63,13 +94,13 @@ class PlayerMain{
             }
             this.size={
                 width:300,
-                height:20
+                height:50
             }
         }
         draw(){
-            canv.fillStyle='red'
-            canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
-            // canv.drawImage('./platform.png',0,0)
+            // canv.fillStyle='red'
+            // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
+            canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
         }
     }
 
