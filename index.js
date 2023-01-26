@@ -16,8 +16,8 @@ class PlayerMain{
             y:100
         }
         this.size = {
-            width:60,
-            height:200
+            width:66,
+            height:150
         }
         this.velocity = {
             x:5,
@@ -31,15 +31,15 @@ class PlayerMain{
         this.backward=false
         this.spriteFrame=0
         this.playerAnimation={
+            runningRight:{
+                image:running,
+                cropWidth:341,
+                width:127.875
+                },
             standingRight:{
                 image:standing,
                 cropWidth:177,
-                height:400
-                },
-            runningRight:{
-                image:running,
-                cropWidth:177,
-                height:400
+                width:66
                 }
         }
         this.playerState='standingRight'
@@ -53,10 +53,10 @@ class PlayerMain{
                 this.playerAnimation[this.playerState].cropWidth *this.spriteFrame,
                 0,
                 this.playerAnimation[this.playerState].cropWidth,
-                this.playerAnimation[this.playerState].height,
+                400,
                 this.position.x,
                 this.position.y,
-                this.size.width,
+                this.playerAnimation[this.playerState].width,
                 this.size.height)
         }
         update(){
@@ -148,6 +148,7 @@ class PlayerMain{
                 break
             case 39:
                 player.forward = true
+                player.playerState = 'runningRight'
                 break
         }
     })
