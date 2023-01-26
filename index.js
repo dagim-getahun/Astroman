@@ -3,7 +3,9 @@
 const canvas = document.getElementById('screen')
 const platformImg = document.getElementById('platform-1')
 const standing = document.getElementById('standing')
+const standingL = document.getElementById('standingL')
 const running = document.getElementById('running')
+const runningL = document.getElementById('runningL')
 
 canvas.width = innerWidth
 canvas.height = innerHeight*0.7
@@ -40,8 +42,18 @@ class PlayerMain{
                 image:standing,
                 cropWidth:177,
                 width:66
+                },
+            runningLeft:{
+                image:runningL,
+                cropWidth:341,
+                width:127.875
+                },
+            standingLeft:{
+                image:standingL,
+                cropWidth:177,
+                width:66
                 }
-        }
+            }
         this.playerState='standingRight'
         
     }
@@ -145,20 +157,23 @@ class PlayerMain{
                 break
             case 37:
                 player.backward = true
+                player.playerState = 'runningLeft'
                 break
-            case 39:
-                player.forward = true
-                player.playerState = 'runningRight'
-                break
-        }
-    })
-    addEventListener('keyup',(event)=>{
-        switch(event.keyCode){
-            case 37:
-                player.backward=false
-                break
-            case 39:
-                player.forward=false
-                break
+                case 39:
+                    player.forward = true
+                    player.playerState = 'runningRight'
+                    break
+                }
+            })
+            addEventListener('keyup',(event)=>{
+            switch(event.keyCode){
+                case 37:
+                    player.backward=false
+                    player.playerState = 'standingLeft'
+                    break
+                case 39:
+                    player.playerState = 'standingRight'
+                    player.forward=false
+                    break
         }
     })
