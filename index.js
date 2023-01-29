@@ -6,9 +6,10 @@ const standing = document.getElementById('standing')
 const standingL = document.getElementById('standingL')
 const running = document.getElementById('running')
 const runningL = document.getElementById('runningL')
+const trees = document.getElementById('tree')
 
 canvas.width = innerWidth
-canvas.height = innerHeight*0.7
+canvas.height = innerHeight*0.74
 const canv = canvas.getContext('2d')
 
 class PlayerMain{
@@ -22,13 +23,13 @@ class PlayerMain{
             height:150
         }
         this.velocity = {
-            x:5,
+            x:10,
             y:10
         }
         this.gravity = 1
         this.jumpAcceleration = 4
         this.jump = false
-        this.jumpHeight = this.position.y+350
+        this.jumpHeight = this.position.y+500
         this.forward=false
         this.backward=false
         this.spriteFrame=0
@@ -101,8 +102,8 @@ class PlayerMain{
     class Platform{
         constructor(x,y){
             this.position={
-                x,
-                y
+                x:x,
+                y:canvas.height-y
             }
             this.size={
                 width:300,
@@ -116,12 +117,36 @@ class PlayerMain{
         }
     }
 
-
+    class backGround{
+        constructor(){
+            this.position={
+                x:0,
+                y:110
+            }
+        }
+        draw(){
+            canv.drawImage(trees,this.position.x,this.position.y)
+        }
+    }
+    
     const player = new PlayerMain()
-    const platforms = [new Platform(100,200),new Platform(500,400),new Platform(700,300)]
+    const background = new backGround()
+
+    const platforms = [
+        new Platform(0,50),
+        new Platform(300,50),
+        new Platform(600,50),
+        new Platform(1000,50),
+        new Platform(1300,50),
+        new Platform(1600,50),
+
+        new Platform(200,400),
+        new Platform(1000,550),
+        new Platform(700,300)]
     
     function animate(){
-        canv.clearRect(0,0,canvas.width,canvas.height)
+        canv.clearRect(0,0,canvas.width*3,canvas.height)
+        background.draw()
         player.update()
         platforms.forEach((platform)=>{
             platform.draw()
@@ -139,11 +164,13 @@ class PlayerMain{
             platforms.forEach((platform)=>{
                 platform.position.x -= player.velocity.x
             })
+            background.position.x -= player.velocity.x
         }
         if(player.backward && player.position.x <= 100){
             platforms.forEach((platform)=>{
                 platform.position.x += player.velocity.x
             })
+            background.position.x += player.velocity.x
         }
         requestAnimationFrame(animate)
     }
