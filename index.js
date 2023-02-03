@@ -133,18 +133,25 @@ class PlayerMain{
     const background = new backGround()
 
     const platforms = [
-        new Platform(200,400),
-        new Platform(1000,550),
-        new Platform(700,300)]
+        // new Platform(200,400),
+        // new Platform(1000,550),
+        // new Platform(700,300)
+    ]
     
     
     let g = 0
     let groundLimit = 900
     let gameProgress=0;
-
+    let renderProgress=600;
     function animate(){
-        
+        if(gameProgress >= renderProgress){
+            renderProgress +=600
+            platforms.push(
+                new Platform(renderProgress,300)
+            )
+        }
         while(g< groundLimit){
+            console.log("added : "+g)
             platforms.push(       
             new Platform(g,50)
                 )
@@ -175,19 +182,21 @@ class PlayerMain{
                 platform.position.x -= player.velocity.x
             })
             background.position.x -= player.velocity.x
+            g -= player.velocity.x
             gameProgress += player.velocity.x
         }else if(player.backward && player.position.x <= 100){
             platforms.forEach((platform)=>{
                 platform.position.x += player.velocity.x
             })
             background.position.x += player.velocity.x
+            g+=player.velocity.x
             gameProgress -= player.velocity.x
         }else if(player.forward){
             gameProgress += 10
         }else if(player.backward){
             gameProgress -= 10
         }
-        console.log(groundLimit,gameProgress,g,Math.abs(groundLimit-gameProgress))
+        // console.log(groundLimit,gameProgress,g,Math.abs(groundLimit-gameProgress))
         requestAnimationFrame(animate)
     }
     animate()
