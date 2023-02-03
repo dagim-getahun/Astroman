@@ -133,18 +133,24 @@ class PlayerMain{
     const background = new backGround()
 
     const platforms = [
-        new Platform(0,50),
-        new Platform(300,50),
-        new Platform(600,50),
-        new Platform(1000,50),
-        new Platform(1300,50),
-        new Platform(1600,50),
-
         new Platform(200,400),
         new Platform(1000,550),
         new Platform(700,300)]
     
+    
+    let g = 0
+    let groundLimit = 900
+    let gameProgress=0;
+
     function animate(){
+        
+        while(g< groundLimit){
+            platforms.push(       
+            new Platform(g,50)
+                )
+                g+=300
+        }
+
         canv.clearRect(0,0,canvas.width*3,canvas.height)
         background.draw()
         player.update()
@@ -160,18 +166,28 @@ class PlayerMain{
             player.velocity.y=0
         }
         })
+        if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
+            groundLimit += 300
+        }
         if(player.forward && player.position.x >= innerWidth/2){
+            
             platforms.forEach((platform)=>{
                 platform.position.x -= player.velocity.x
             })
             background.position.x -= player.velocity.x
-        }
-        if(player.backward && player.position.x <= 100){
+            gameProgress += player.velocity.x
+        }else if(player.backward && player.position.x <= 100){
             platforms.forEach((platform)=>{
                 platform.position.x += player.velocity.x
             })
             background.position.x += player.velocity.x
+            gameProgress -= player.velocity.x
+        }else if(player.forward){
+            gameProgress += 10
+        }else if(player.backward){
+            gameProgress -= 10
         }
+        console.log(groundLimit,gameProgress,g,Math.abs(groundLimit-gameProgress))
         requestAnimationFrame(animate)
     }
     animate()
@@ -179,8 +195,10 @@ class PlayerMain{
     addEventListener('keydown',(event)=>{
         switch(event.keyCode){
             case 38:
-                player.jump=true
-                player.velocity.y += 50
+                if(player.velocity.y === 0){
+                    player.jump=true
+                    player.velocity.y += 50
+                }
                 break
             case 37:
                 player.backward = true
