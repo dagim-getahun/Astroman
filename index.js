@@ -143,7 +143,7 @@ class PlayerMain{
                 width:300,
                 height:50
             }
-            this.placeObstacle = true
+            this.placeObstacle = false
         }
         draw(){
             canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
@@ -191,16 +191,24 @@ class PlayerMain{
         if(gameProgress >= renderProgress+renderDelay){
             renderDelay = rand(100,600)
             renderProgress +=600
+            let singlePlatform = new Platform(renderProgress,rand(200,300))
+            if(rand(1,6) === 3){
+                singlePlatform.placeObstacle=true
+            }
             platforms.push(
-                new Platform(renderProgress,rand(200,300))
+                singlePlatform
             )
             g+=hole
             hole = rand(200,400)
         }
         while(g< groundLimit){
             console.log("added : "+g)
+            let singlePlatform = new Platform(g,50)
+            if(rand(1,10)===7){
+                singlePlatform.placeObstacle=true
+            }
             platforms.push(       
-            new Platform(g,50)
+                singlePlatform
                 )
                 g+=300
             }
