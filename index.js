@@ -113,22 +113,23 @@ class PlayerMain{
             }
             this.spriteFrame=0
         }
-        drawFire(x,y){
+        drawFire(){
             let width= (800*this.spriteFrame)+(298*this.spriteFrame)
             canv.drawImage(
                 fireImg,
                 width,0,
                 800,1500,
-                x,
-                y,
+                this.firePosition.x,
+                this.firePosition.y,
                 this.fireSize.width,
                 this.fireSize.height)
         }
         updateFire(x,y){
+            this.firePosition={x,y}
             if(animationFrame%2 === 0){
                 this.spriteFrame= this.spriteFrame===4?0:this.spriteFrame+1
             }
-            this.drawFire(x,y)
+            this.drawFire()
             }
     }
     
@@ -228,6 +229,18 @@ class PlayerMain{
            ){
             player.velocity.y=0
         }
+        if(platform.placeObstacle &&
+           player.position.x+player.size.width+player.velocity.x >= platform.firePosition.x &&
+           player.position.x+player.velocity.x <= platform.firePosition.x+platform.fireSize.width &&
+           player.position.y <= platform.firePosition.y+platform.fireSize.height && 
+           player.position.y+player.size.height+player.velocity.y >= platform.firePosition.y
+           ){
+            console.log('Bured :game over',
+            player.position.x+player.size.width+player.velocity.x , platform.firePosition.x
+            ,
+            platform.position.x)
+        }
+
         })
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
             groundLimit += 300
