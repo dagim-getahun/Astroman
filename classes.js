@@ -13,9 +13,11 @@ canvas.height = innerHeight*0.99
 const canv = canvas.getContext('2d')
 
 class Sounds{
-    coinTakeSound = new Audio('sounds/success.mp3')
-    jump = new Audio('sounds/jump.mp3')
-    die = new Audio('sounds/negative-beep.mp3')
+    constructor(){
+        this.coinTakeSound = new Audio('sounds/success.mp3')
+    this.jump = new Audio('sounds/jump.mp3')
+    this.die = new Audio('sounds/negative-beep.mp3')
+    }
     
 }
 
@@ -100,7 +102,7 @@ class PlayerMain{
             if(this.forward && this.position.x <= innerWidth/2){
                 this.position.x += this.velocity.x
             }else if(this.backward && this.position.x >= 100){
-                this.position.x = this.position.x-this.velocity.x
+                this.position.x -= this.velocity.x
             }
             this.draw()
         }

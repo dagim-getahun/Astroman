@@ -16,13 +16,20 @@
     let animationFrame=0
     
     let g = 0
-    let groundLimit = 1500
+    let groundLimit = 2500
     let gameProgress=0;
-    let renderProgress=300;
+    let renderProgress=2000;
     let renderDelay = rand(100,600)
     let hole = rand(150,300)
     let collected = {
         coins:0
+    }
+    function makeSound(sound){
+        if(soundEffects[sound].currentTime > 0){
+            soundEffects[sound].currentTime = 0
+        }else{
+            soundEffects[sound].play()
+        }
     }
     function updateScoreBoard(){
         console.log("coins ",collected.coins)
@@ -88,8 +95,7 @@
            player.position.y <= platform.firePosition.y+platform.fireSize.height && 
            player.position.y+player.size.height+player.velocity.y >= platform.firePosition.y
            ){
-            // player.velocity={x:0,y:0}
-            console.log('Bured :game over')
+            makeSound('die')
         }
     }
         )
@@ -105,11 +111,8 @@
                 collectables.length -= 1
                 collected.coins += 10
                 updateScoreBoard()
-                    if(soundEffects.coinTakeSound.currentTime > 0){
-                        soundEffects.coinTakeSound.currentTime = 0
-                    }else{
-                        soundEffects.coinTakeSound.play()
-                    }
+                    makeSound('coinTakeSound')
+                    
                 }
         })
 
@@ -156,6 +159,7 @@
                     player.jump=true
                     player.velocity.y += 50
                 }
+                makeSound('jump')
                 break
             case 37:
                 player.backward = true
