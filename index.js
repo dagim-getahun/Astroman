@@ -1,6 +1,6 @@
 // import ground from './platform.png'
 // console.log(ground)
-
+    const soundEffects = new Sounds()
     const theCoin = new Collectable() 
     const player = new PlayerMain()
     const background = new backGround()
@@ -21,7 +21,13 @@
     let renderProgress=300;
     let renderDelay = rand(100,600)
     let hole = rand(150,300)
-
+    let collected = {
+        coins:0
+    }
+    function updateScoreBoard(){
+        console.log("coins ",collected.coins)
+        document.getElementById('coinCount').innerText = collected.coins
+    }  
     function animate(){
         animationFrame=animationFrame===10?0:animationFrame+1
         if(gameProgress >= renderProgress+renderDelay){
@@ -96,7 +102,14 @@
             player.position.y+player.size.height+player.velocity.y >= collectable.position.y
             ){
                 delete collectables[collectables.indexOf(collectable)]
-                console.log('coin taken')
+                collectables.length -= 1
+                collected.coins += 10
+                updateScoreBoard()
+                    if(soundEffects.coinTakeSound.currentTime > 0){
+                        soundEffects.coinTakeSound.currentTime = 0
+                    }else{
+                        soundEffects.coinTakeSound.play()
+                    }
                 }
         })
 

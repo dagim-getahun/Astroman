@@ -12,6 +12,12 @@ canvas.width = innerWidth*0.99
 canvas.height = innerHeight*0.99
 const canv = canvas.getContext('2d')
 
+class Sounds{
+    coinTakeSound = new Audio('sounds/success.mp3')
+    jump = new Audio('sounds/jump.mp3')
+    die = new Audio('sounds/negative-beep.mp3')
+    
+}
 
 class PlayerMain{
     constructor(){
