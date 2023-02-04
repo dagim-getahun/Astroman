@@ -103,38 +103,38 @@ class PlayerMain{
     
     class Fire{
         constructor(){
-            this.position ={
+            this.firePosition ={
                 x:0,
                 y:0
             }
-            this.size={
+            this.fireSize={
                 height:100,
                 width:80
             }
             this.spriteFrame=0
         }
-        draw(){
+        drawFire(x,y){
             let width= (800*this.spriteFrame)+(298*this.spriteFrame)
             canv.drawImage(
                 fireImg,
                 width,0,
                 800,1500,
-                this.position.x,
-                this.position.y,
-                this.size.width,
-                this.size.height)
+                x,
+                y,
+                this.fireSize.width,
+                this.fireSize.height)
         }
-        update(){
+        updateFire(x,y){
             if(animationFrame%2 === 0){
                 this.spriteFrame= this.spriteFrame===4?0:this.spriteFrame+1
             }
-            this.draw()
+            this.drawFire(x,y)
             }
     }
     
     class Platform extends Fire{
         constructor(x,y){
-            super()
+            super(0,0)
             this.position={
                 x:x,
                 y:canvas.height-y
@@ -143,9 +143,16 @@ class PlayerMain{
                 width:300,
                 height:50
             }
+            this.placeObstacle = true
         }
         draw(){
             canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
+        }
+        update(){
+            if(this.placeObstacle){
+            this.updateFire(this.position.x+100,this.position.y-90)    
+            }
+            this.draw()
         }
     }
 
@@ -199,11 +206,11 @@ class PlayerMain{
             }
             
         canv.clearRect(0,0,canvas.width*3,canvas.height)
-        fireObj.update()
+        fireObj.updateFire()
         background.draw()
         player.update()
         platforms.forEach((platform)=>{
-            platform.draw()
+            platform.update()
         })
         platforms.forEach((platform)=>{
         if(player.position.y+player.size.height <= platform.position.y && 
