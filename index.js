@@ -85,11 +85,19 @@
             // player.velocity={x:0,y:0}
             console.log('Bured :game over')
         }
-        }
+    }
         )
-
+        
         collectables.forEach((collectable)=>{
-
+            if(
+            player.position.x+player.size.width+player.velocity.x >= collectable.position.x &&
+            player.position.x+player.velocity.x <= collectable.position.x+collectable.size.width &&
+            player.position.y <= collectable.position.y+collectable.size.height && 
+            player.position.y+player.size.height+player.velocity.y >= collectable.position.y
+            ){
+                delete collectables[collectables.indexOf(collectable)]
+                console.log('coin taken')
+                }
         })
 
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
