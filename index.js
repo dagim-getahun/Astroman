@@ -7,7 +7,8 @@
     const fireObj = new Fire()
     
     const platforms = []
-    
+    const collectables = []
+
     function rand(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
       }
@@ -19,7 +20,7 @@
     let gameProgress=0;
     let renderProgress=300;
     let renderDelay = rand(100,600)
-    let hole = rand(200,400)
+    let hole = rand(150,300)
 
     function animate(){
         animationFrame=animationFrame===10?0:animationFrame+1
@@ -35,6 +36,15 @@
             )
             g+=hole
             hole = rand(200,400)
+           
+            let num=rand(0,5)
+
+            for(let x=0;x<=num;x++){
+                collectables.push(
+                    new Collectable(gameProgress+(x*60),400)
+                    )
+                }
+            
         }
         while(g< groundLimit){
             console.log("added : "+g)
@@ -49,13 +59,15 @@
             }
             
         canv.clearRect(0,0,canvas.width*3,canvas.height)
-        theCoin.update()
         fireObj.updateFire()
         background.draw()
-        player.update()
         platforms.forEach((platform)=>{
             platform.update()
         })
+        collectables.forEach((collectable)=>{
+            collectable.update()
+        })
+        player.update()
         platforms.forEach((platform)=>{
         if(player.position.y+player.size.height <= platform.position.y && 
            player.position.y+player.size.height+player.velocity.y >= platform.position.y &&
@@ -73,13 +85,22 @@
             // player.velocity={x:0,y:0}
             console.log('Bured :game over')
         }
+        }
+        )
+
+        collectables.forEach((collectable)=>{
 
         })
+
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
             groundLimit += 300
         }
         if(player.forward && player.position.x >= innerWidth/2){
             
+            collectables.forEach((collectable)=>{
+                collectable.position.x -= player.velocity.x
+            })
+
             platforms.forEach((platform)=>{
                 platform.position.x -= player.velocity.x
             })
@@ -87,6 +108,9 @@
             g -= player.velocity.x
             gameProgress += player.velocity.x
         }else if(player.backward && player.position.x <= 100){
+            collectables.forEach((collectable)=>{
+                collectable.position.x += player.velocity.x
+            })
             platforms.forEach((platform)=>{
                 platform.position.x += player.velocity.x
             })

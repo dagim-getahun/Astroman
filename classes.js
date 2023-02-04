@@ -30,7 +30,7 @@ class PlayerMain{
         this.gravity = 1
         this.jumpAcceleration = 4
         this.jump = false
-        this.jumpHeight = this.position.y+500
+        this.jumpHeight = this.position.y+1000
         this.forward=false
         this.backward=false
         this.spriteFrame=0
@@ -171,9 +171,9 @@ class PlayerMain{
     }
 
     class Collectable{
-        constructor(){
+        constructor(x,y){
             this.position={
-                x:0,y:0
+                x,y
             }
             this.size ={
                 width:50,
