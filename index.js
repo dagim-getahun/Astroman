@@ -7,7 +7,7 @@ const standingL = document.getElementById('standingL')
 const running = document.getElementById('running')
 const runningL = document.getElementById('runningL')
 const trees = document.getElementById('tree')
-
+const fireImg = document.getElementById('fire')
 canvas.width = innerWidth
 canvas.height = innerHeight*0.74
 const canv = canvas.getContext('2d')
@@ -99,8 +99,42 @@ class PlayerMain{
         }
     }
 
-    class Platform{
+   
+    
+    class Fire{
+        constructor(){
+            this.position ={
+                x:0,
+                y:0
+            }
+            this.size={
+                height:100,
+                width:80
+            }
+            this.spriteFrame=0
+        }
+        draw(){
+            let width= (800*this.spriteFrame)+(298*this.spriteFrame)
+            canv.drawImage(
+                fireImg,
+                width,0,
+                800,1500,
+                this.position.x,
+                this.position.y,
+                this.size.width,
+                this.size.height)
+        }
+        update(){
+            if(animationFrame%2 === 0){
+                this.spriteFrame= this.spriteFrame===4?0:this.spriteFrame+1
+            }
+            this.draw()
+            }
+    }
+    
+    class Platform extends Fire{
         constructor(x,y){
+            super()
             this.position={
                 x:x,
                 y:canvas.height-y
@@ -111,8 +145,6 @@ class PlayerMain{
             }
         }
         draw(){
-            // canv.fillStyle='red'
-            // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
             canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
         }
     }
@@ -128,27 +160,35 @@ class PlayerMain{
             canv.drawImage(trees,this.position.x,this.position.y)
         }
     }
-    
+
     const player = new PlayerMain()
     const background = new backGround()
-
-    const platforms = [
-        // new Platform(200,400),
-        // new Platform(1000,550),
-        // new Platform(700,300)
-    ]
+    const fireObj = new Fire()
     
+    const platforms = []
+    
+    function rand(min, max) { // min and max included 
+        return Math.floor(Math.random() * (max - min + 1) + min)
+      }
+
+    let animationFrame=0
     
     let g = 0
-    let groundLimit = 900
+    let groundLimit = 1500
     let gameProgress=0;
-    let renderProgress=600;
+    let renderProgress=300;
+    let renderDelay = rand(100,600)
+    let hole = rand(200,400)
     function animate(){
-        if(gameProgress >= renderProgress){
+        animationFrame=animationFrame===10?0:animationFrame+1
+        if(gameProgress >= renderProgress+renderDelay){
+            renderDelay = rand(100,600)
             renderProgress +=600
             platforms.push(
-                new Platform(renderProgress,300)
+                new Platform(renderProgress,rand(200,300))
             )
+            g+=hole
+            hole = rand(200,400)
         }
         while(g< groundLimit){
             console.log("added : "+g)
@@ -156,9 +196,10 @@ class PlayerMain{
             new Platform(g,50)
                 )
                 g+=300
-        }
-
+            }
+            
         canv.clearRect(0,0,canvas.width*3,canvas.height)
+        fireObj.update()
         background.draw()
         player.update()
         platforms.forEach((platform)=>{
@@ -202,6 +243,7 @@ class PlayerMain{
     animate()
     
     addEventListener('keydown',(event)=>{
+        console.log(event.keyCode)
         switch(event.keyCode){
             case 38:
                 if(player.velocity.y === 0){
@@ -213,10 +255,13 @@ class PlayerMain{
                 player.backward = true
                 player.playerState = 'runningLeft'
                 break
-                case 39:
-                    player.forward = true
-                    player.playerState = 'runningRight'
-                    break
+            case 39:
+                player.forward = true
+                player.playerState = 'runningRight'
+                break
+            case 90:
+                canv.clearRect(0,0,canvas.width,canvas.height)
+                canv.scale(0.5,0.5)
                 }
             })
             addEventListener('keyup',(event)=>{
