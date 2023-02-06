@@ -45,6 +45,7 @@
             renderProgress +=600
             let singlePlatform = new Platform(renderProgress,rand(200,300))
             if(rand(1,4) === 2){
+                singlePlatform.hoverDirection = 'horizontal'
                 singlePlatform.hover = true
             }
             if(rand(1,6) === 3){
@@ -98,7 +99,11 @@
            player.position.x+player.velocity.x <= platform.position.x+platform.size.width 
            ){
                if(platform.hover){
-                   player.position.y += platform.hoverIncrement.y 
+                    if(platform.hoverDirection === 'vertical'){
+                        player.position.y += platform.hoverIncrement.y 
+                    }else{
+                        player.position.x += platform.hoverIncrement.x 
+                    }
                 }
                     player.velocity.y=0
                     

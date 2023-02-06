@@ -201,6 +201,14 @@ class PlayerMain{
                     this.position.y += this.hoverIncrement.y
                     this.hoverDistance.y += this.hoverIncrement.y
                     
+                }else{
+                    if(this.hoverDistance.x===0 || this.hoverDistance.x===30){
+                        this.hoverIncrement.x *= -1     
+                    }
+                    this.position.x += this.hoverIncrement.x
+                    this.hoverDistance.x += this.hoverIncrement.x
+                    
+
                 }
 
             }
