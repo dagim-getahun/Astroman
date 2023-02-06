@@ -36,6 +36,7 @@ class PlayerMain{
             x:10,
             y:10
         }
+        this.life = 5
         this.gravity = 1
         this.jumpAcceleration = 4
         this.jump = false
@@ -70,6 +71,11 @@ class PlayerMain{
         this.playerState='standingRight'
         
     }
+        reSpawn(){
+            this.position = {
+                x:100,y:100
+            }
+        }
         draw(){
             // canv.fillStyle='grey'
             // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)

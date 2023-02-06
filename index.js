@@ -35,10 +35,11 @@
         }
     }
     function updateScoreBoard(){
-        console.log("coins ",collected.coins)
         document.getElementById('coinCount').innerText = collected.coins
+        document.getElementById('life').innerText = player.life
     }  
     function animate(){
+        updateScoreBoard()
         animationFrame=animationFrame===10?0:animationFrame+1
         if(gameProgress >= renderProgress+renderDelay){
             renderDelay = rand(100,600)
@@ -90,7 +91,13 @@
         })
         player.update()
         if(player.position.y >= canvas.height*1.2){
-            player.dead=true
+            if(player.life === 0){
+                player.dead=true
+            }else{
+                player.life -=1
+                player.reSpawn()
+            }
+            makeSound('die')
         }
         platforms.forEach((platform)=>{
         if(player.position.y+player.size.height <= platform.position.y && 
@@ -115,7 +122,12 @@
            player.position.y <= platform.firePosition.y+platform.fireSize.height && 
            player.position.y+player.size.height+player.velocity.y >= platform.firePosition.y
            ){
-            player.dead=true
+            if(player.life === 0){
+                player.dead=true
+            }else{
+                player.life -=1
+                player.reSpawn()
+            }
             makeSound('die')
         }
     }
