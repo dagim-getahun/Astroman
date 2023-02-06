@@ -178,11 +178,32 @@ class PlayerMain{
                 height:50
             }
             this.placeObstacle = false
+            this.hover = false
+            this.hoverDirection = 'vertical'
+            this.hoverDistance = {
+                x:30,
+                y:50
+            }
+            this.hoverIncrement = {
+                x:0.5,
+                y:0.25
+            }
         }
         draw(){
             canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
         }
         update(){
+            if(this.hover){
+                if(this.hoverDirection==='vertical'){
+                    if(this.hoverDistance.y===0 || this.hoverDistance.y===50){
+                        this.hoverIncrement.y *= -1     
+                    }
+                    this.position.y += this.hoverIncrement.y
+                    this.hoverDistance.y += this.hoverIncrement.y
+                    
+                }
+
+            }
             if(this.placeObstacle){
             this.updateFire(this.position.x+100,this.position.y-90)    
             }

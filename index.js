@@ -6,9 +6,12 @@
     const background = new backGround()
     const fireObj = new Fire()
     
+    let platform1 = new Platform(200,300)
+    platform1.hover=true
+    
     const platforms = []
     const collectables = []
-
+    
     function rand(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
       }
@@ -41,6 +44,9 @@
             renderDelay = rand(100,600)
             renderProgress +=600
             let singlePlatform = new Platform(renderProgress,rand(200,300))
+            if(rand(1,4) === 2){
+                singlePlatform.hover = true
+            }
             if(rand(1,6) === 3){
                 singlePlatform.placeObstacle=true
             }
@@ -91,7 +97,12 @@
            player.position.x+player.size.width >= platform.position.x &&
            player.position.x+player.velocity.x <= platform.position.x+platform.size.width 
            ){
-            player.velocity.y=0
+               if(platform.hover){
+                   player.position.y += platform.hoverIncrement.y 
+                }
+                    player.velocity.y=0
+                    
+            
         }
         if(platform.placeObstacle &&
            player.position.x+player.size.width+player.velocity.x >= platform.firePosition.x &&
