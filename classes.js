@@ -7,6 +7,7 @@ const runningL = document.getElementById('runningL')
 const trees = document.getElementById('tree')
 const fireImg = document.getElementById('fire')
 const coin = document.getElementById('coin')
+const dead = document.getElementById('dead')
 
 canvas.width = innerWidth*0.99
 canvas.height = innerHeight*0.99
@@ -42,6 +43,8 @@ class PlayerMain{
         this.forward=false
         this.backward=false
         this.spriteFrame=0
+        this.spriteFrame2=0
+        this.dead=false
         this.playerAnimation={
             runningRight:{
                 image:running,
@@ -71,18 +74,39 @@ class PlayerMain{
             // canv.fillStyle='grey'
             // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
             const width=177
-            canv.drawImage(this.playerAnimation[this.playerState].image,
-                this.playerAnimation[this.playerState].cropWidth *this.spriteFrame,
-                0,
+            if(this.dead){
+                this.die()
+            }else{
+                canv.drawImage(this.playerAnimation[this.playerState].image,
+                    this.playerAnimation[this.playerState].cropWidth *this.spriteFrame,
+                    0,
                 this.playerAnimation[this.playerState].cropWidth,
                 400,
                 this.position.x,
                 this.position.y,
                 this.playerAnimation[this.playerState].width,
                 this.size.height)
+            }
+            
+        }
+        die(){
+            let c = this.spriteFrame2<5?this.spriteFrame2:this.spriteFrame2%5
+            canv.drawImage(
+                dead,
+                    187 *c,
+                    0,
+                  200,150,
+                  this.position.x,
+                  this.position.y-50,
+                  150,
+                  150
+                )  
         }
         update(){
             this.spriteFrame = this.spriteFrame===28?0:this.spriteFrame+1
+            if(animationFrame === 5 || animationFrame === 10){
+                this.spriteFrame2 = this.spriteFrame2===20?0:this.spriteFrame2+1
+            }
 
             if(this.jump){
                 this.position.y -= this.velocity.y

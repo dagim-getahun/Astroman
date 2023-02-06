@@ -72,6 +72,7 @@
             }
             
         canv.clearRect(0,0,canvas.width*3,canvas.height)
+        
         fireObj.updateFire()
         background.draw()
         platforms.forEach((platform)=>{
@@ -95,6 +96,7 @@
            player.position.y <= platform.firePosition.y+platform.fireSize.height && 
            player.position.y+player.size.height+player.velocity.y >= platform.firePosition.y
            ){
+            player.dead=true
             makeSound('die')
         }
     }
@@ -146,15 +148,13 @@
         }else if(player.backward){
             gameProgress -= 10
         }
-        // console.log(groundLimit,gameProgress,g,Math.abs(groundLimit-gameProgress))
         requestAnimationFrame(animate)
     }
     animate()
-    
     addEventListener('keydown',(event)=>{
-        console.log(event.keyCode)
-        switch(event.keyCode){
-            case 38:
+        if(!player.dead){
+            switch(event.keyCode){
+                case 38:
                 if(player.velocity.y === 0){
                     player.jump=true
                     player.velocity.y += 50
@@ -170,19 +170,32 @@
                 player.playerState = 'runningRight'
                 break
             case 90:
-                canv.clearRect(0,0,canvas.width,canvas.height)
-                canv.scale(0.5,0.5)
+                player.velocity.x = 20
+                // canv.clearRect(0,0,canvas.width,canvas.height)
+                // canv.scale(0.5,0.5)
+                break
+            case 65:
+                player.velocity.x = 10
+                    // canv.clearRect(0,0,canvas.width,canvas.height)
+                // canv.scale(2,2)
+                break
                 }
+            }
             })
             addEventListener('keyup',(event)=>{
-            switch(event.keyCode){
-                case 37:
+                if(!player.dead){
+                    switch(event.keyCode){
+                        case 37:
                     player.backward=false
                     player.playerState = 'standingLeft'
                     break
-                case 39:
-                    player.playerState = 'standingRight'
-                    player.forward=false
-                    break
-        }
+                    case 39:
+                        player.playerState = 'standingRight'
+                        player.forward=false
+                        break
+                    }
+                }else{
+                    player.forward = false
+                    player.backward = false
+                }
     })

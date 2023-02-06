@@ -10,7 +10,7 @@
                 margin:0;
                 background-image:url('background.png');
                 background-repeat: no-repeat;
-                background-color: black;
+                background-color: #11424f;
             }
             .hide{
                 display: none;
@@ -34,6 +34,43 @@
                 color: white;
                 font-size: 16px;
             }
+            .game-promt{
+                position: fixed;
+                top:30%;
+                transition: 500ms;
+                left: 25%;
+                border-radius: 20px;
+                width: 50%;
+                height: 150px;
+                background-color: #11424f;
+                z-index: 5;
+                border: 4px solid white;
+                box-shadow: 2px 2px 8px rgb(116, 116, 116);
+                text-align: center;
+                font-family: Arial, Helvetica, sans-serif;
+                color: white;
+                display: block;
+            }
+            .game-promt.hide{
+                top: -20%;
+                transition: 500ms;
+                display: none;
+            }
+            .game-promt > button{
+                width: 200px;
+                height: 40px;
+                background-color: rgb(26, 175, 26);
+                border-radius: 8px;
+                border: none;
+                color: white;
+                font-size: 20px;
+                cursor: pointer;
+                transition: 500ms;
+                box-shadow: 2px 2px 8px black;
+            }
+            .game-promt > button:hover{
+                box-shadow: 2px 2px 15px black;
+            }
             </style>
 <div class="score-board">
     <div>
@@ -41,6 +78,10 @@
         x <span id="coinCount">0</span>
     </div>
 </div>            
+        <!-- <div class="game-promt" id="propmt">
+            <h1>GAME</h1>
+            <button onclick='hidePropmt()' >Play</button>
+        </div> -->
 <canvas id="screen"></canvas>
 <img src="platform.png" id="platform-1" class="hide"/>
 <img src="standRight.png" id="standing" class="hide"/>
@@ -50,9 +91,16 @@
 <img src="hills.png" id="tree" class="hide"/>
 <img src="fire.png" id="fire" class="hide"/>
 <img src="coin.png" id="coin" class="hide"/>
+<img src="dead.png" id="dead" class="hide"/>
 
 <!-- <audio src="sounds/success.mp3" class="hide" id="success"></audio> -->
 <script  src="./classes.js"></script>
 <script  src="./index.js"></script>
+<script>
+    function hidePropmt(){
+        document.getElementById('propmt').classList.add('hide')
+        // canv.filter = 'blur(0px)'
+    }
+</script>
 </body>
     </html>
