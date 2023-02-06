@@ -117,7 +117,7 @@ class PlayerMain{
                 }
             }else{
                 this.position.y += this.velocity.y
-                if(this.position.y+this.size.height+this.velocity.y <= canvas.height){
+                if(this.position.y+this.size.height+this.velocity.y <= canvas.height*1.5){
                     this.velocity.y += this.gravity
                 }else{
                     this.velocity.y = 0

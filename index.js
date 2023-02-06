@@ -82,6 +82,9 @@
             collectable.update()
         })
         player.update()
+        if(player.position.y >= canvas.height*1.2){
+            player.dead=true
+        }
         platforms.forEach((platform)=>{
         if(player.position.y+player.size.height <= platform.position.y && 
            player.position.y+player.size.height+player.velocity.y >= platform.position.y &&
