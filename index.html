@@ -88,6 +88,10 @@
         </div> -->
 <canvas id="screen"></canvas>
 <img src="platform.png" id="platform-1" class="hide"/>
+<img src="platform-tall.png" id="platform-2" class="hide"/>
+<img src="small-platform-left.png" id="platform-3" class="hide"/>
+<img src="small-platform-right.png" id="platform-4" class="hide"/>
+
 <img src="standRight.png" id="standing" class="hide"/>
 <img src="standLeft.png" id="standingL" class="hide"/>
 <img src="runRight.png" id="running" class="hide"/>
@@ -98,13 +102,14 @@
 <img src="dead.png" id="dead" class="hide"/>
 
 <!-- <audio src="sounds/success.mp3" class="hide" id="success"></audio> -->
-<script  src="./classes.js"></script>
-<script  src="./index.js"></script>
 <script>
-    function hidePropmt(){
+
+function hidePropmt(){
         document.getElementById('propmt').classList.add('hide')
         // canv.filter = 'blur(0px)'
     }
 </script>
+<script  src="./classes.js"></script>
+<script  src="./index.js"></script>
 </body>
     </html>

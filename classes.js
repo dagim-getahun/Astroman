@@ -1,5 +1,8 @@
 const canvas = document.getElementById('screen')
-const platformImg = document.getElementById('platform-1')
+const platformImg1 = document.getElementById('platform-1')
+const platformImg2 = document.getElementById('platform-2')
+const platformImg3 = document.getElementById('platform-3')
+const platformImg4 = document.getElementById('platform-4')
 const standing = document.getElementById('standing')
 const standingL = document.getElementById('standingL')
 const running = document.getElementById('running')
@@ -12,6 +15,11 @@ const dead = document.getElementById('dead')
 canvas.width = innerWidth*0.99
 canvas.height = innerHeight*0.99
 const canv = canvas.getContext('2d')
+
+function rand(min, max) { // min and max included 
+    return Math.floor(Math.random() * (max - min + 1) + min)
+  }
+
 
 class Sounds{
     constructor(){
@@ -175,30 +183,47 @@ class PlayerMain{
     }
     
     class Platform extends Fire{
-        constructor(x,y){
+        constructor(x,y,random=false){
             super(0,0)
+            this.random = random
+            this.platformTypes = [
+                {image:platformImg1,
+                width: 300,
+                height:50},
+                {image:platformImg2,
+                width: 380,
+                height:383},
+                {image:platformImg3,
+                width: 127,
+                height:128},
+                {image:platformImg4,
+                width: 129,
+                height:126},
+            ]
+            this.type = this.random? rand(0,3):0
             this.position={
                 x:x,
                 y:innerHeight*0.74-y
             }
             this.size={
-                width:300,
-                height:50
+                width:this.platformTypes[this.type].width,
+                height:this.platformTypes[this.type].height,
             }
             this.placeObstacle = false
             this.hover = false
             this.hoverDirection = 'vertical'
             this.hoverDistance = {
-                x:30,
+                x:50,
                 y:50
             }
             this.hoverIncrement = {
-                x:0.5,
+                x:2,
                 y:0.25
             }
+
         }
         draw(){
-            canv.drawImage(platformImg,this.position.x,this.position.y,this.size.width,this.size.height)
+            canv.drawImage(this.platformTypes[this.type].image,this.position.x,this.position.y,this.size.width,this.size.height)
         }
         update(){
             if(this.hover){
@@ -210,7 +235,7 @@ class PlayerMain{
                     this.hoverDistance.y += this.hoverIncrement.y
                     
                 }else{
-                    if(this.hoverDistance.x===0 || this.hoverDistance.x===30){
+                    if(this.hoverDistance.x===0 || this.hoverDistance.x===50){
                         this.hoverIncrement.x *= -1     
                     }
                     this.position.x += this.hoverIncrement.x

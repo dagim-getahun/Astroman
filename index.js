@@ -15,7 +15,6 @@
     function rand(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)
       }
-
     let animationFrame=0
     
     let g = 0
@@ -44,7 +43,7 @@
         if(gameProgress >= renderProgress+renderDelay){
             renderDelay = rand(100,600)
             renderProgress +=600
-            let singlePlatform = new Platform(renderProgress,rand(200,300))
+            let singlePlatform = new Platform(renderProgress,rand(200,300),true)
             if(rand(1,4) === 2){
                 singlePlatform.hoverDirection = 'horizontal'
                 singlePlatform.hover = true
