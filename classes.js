@@ -130,8 +130,10 @@ class PlayerMain{
                 }
             }
             if(this.forward && this.position.x <= innerWidth/2){
+                gameProgress += this.velocity.x
                 this.position.x += this.velocity.x
-            }else if(this.backward && this.position.x >= 100){
+            }else if(this.backward && this.position.x >= 100 && gameProgress >= 10){
+                gameProgress -= this.velocity.x
                 this.position.x -= this.velocity.x
             }
             this.draw()

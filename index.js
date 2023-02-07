@@ -152,6 +152,7 @@
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
             groundLimit += 300
         }
+        console.log(gameProgress)
         if(player.forward && player.position.x >= innerWidth/2){
             
             collectables.forEach((collectable)=>{
@@ -164,7 +165,8 @@
             background.position.x -= player.velocity.x
             g -= player.velocity.x
             gameProgress += player.velocity.x
-        }else if(player.backward && player.position.x <= 100){
+        }else if(player.backward && player.position.x <= 100 && gameProgress >= 10){
+
             collectables.forEach((collectable)=>{
                 collectable.position.x += player.velocity.x
             })
@@ -174,10 +176,6 @@
             background.position.x += player.velocity.x
             g+=player.velocity.x
             gameProgress -= player.velocity.x
-        }else if(player.forward){
-            gameProgress += 10
-        }else if(player.backward){
-            gameProgress -= 10
         }
         requestAnimationFrame(animate)
     }
