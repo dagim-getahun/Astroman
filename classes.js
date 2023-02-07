@@ -81,7 +81,7 @@ class PlayerMain{
     }
         reSpawn(){
             this.position = {
-                x:100,y:100
+                x:this.position.x+ 200,y:100
             }
         }
         draw(){
@@ -190,9 +190,9 @@ class PlayerMain{
                 {image:platformImg1,
                 width: 300,
                 height:50},
-                {image:platformImg2,
-                width: 380,
-                height:383},
+                // {image:platformImg2,
+                // width: 380,
+                // height:383},
                 {image:platformImg3,
                 width: 127,
                 height:128},
@@ -200,7 +200,7 @@ class PlayerMain{
                 width: 129,
                 height:126},
             ]
-            this.type = this.random? rand(0,3):0
+            this.type = this.random? rand(0,2):0
             this.position={
                 x:x,
                 y:innerHeight*0.74-y
