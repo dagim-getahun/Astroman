@@ -8,9 +8,10 @@
         <style>
             body{
                 margin:0;
-                background-image:url('background.png');
+                /* background-image:url('background-mountain.png'); */
                 background-repeat: no-repeat;
                 background-color: #11424f;
+                overflow: hidden;
             }
             .hide{
                 display: none;
@@ -20,14 +21,14 @@
                 right: 30px;
                 top: 10px;
                 height: 40px;
-                width: 200px;
+                width: 500px;
                 /* background-color: red; */
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
             }
             .score-board > div{
-                width: 30%;
+                width: 20%;
                 display: flex;
                 justify-content: space-around;
                 align-items: center;
@@ -71,8 +72,33 @@
             .game-promt > button:hover{
                 box-shadow: 2px 2px 15px black;
             }
+            .lightning{
+                width: 50% !important;
+                height: 10px;
+                border: 2px solid white;
+                position:relative
+            }
+            .progress > img{
+                position: absolute;
+                right: 0px;
+                top: -10px;
+                border-radius: 50%;
+                border: 2px solid white;
+                /* background-color: aliceblue; */
+            }
+            .lightning > .progress{
+                position: absolute;
+                left: 0px;
+                height: 15px;
+                background:linear-gradient(90deg, rgba(1,179,247,1) 0%, rgba(199,226,236,1) 92%);
+            }
             </style>
 <div class="score-board">
+    <div class="lightning">
+        <div class="progress" id="power" style="width: 50%;">
+            <img src="power.png" style="width:30px;height:30px"/>
+        </div>
+    </div>
     <div>
         <img src="coin.png" style="width:30px;height:30px"/>
         x <span id="coinCount">0</span>
@@ -87,6 +113,7 @@
             <button onclick='hidePropmt()' >Play</button>
         </div> -->
 <canvas id="screen"></canvas>
+<img src="background-mountain-loop.png" id="backG" class="hide"/>
 <img src="platform.png" id="platform-1" class="hide"/>
 <img src="platform-tall.png" id="platform-2" class="hide"/>
 <img src="small-platform-left.png" id="platform-3" class="hide"/>

@@ -11,9 +11,10 @@ const trees = document.getElementById('tree')
 const fireImg = document.getElementById('fire')
 const coin = document.getElementById('coin')
 const dead = document.getElementById('dead')
+const backG = document.getElementById('backG')
 
-canvas.width = innerWidth*0.99
-canvas.height = innerHeight*0.99
+canvas.width = innerWidth
+canvas.height = innerHeight
 const canv = canvas.getContext('2d')
 
 function rand(min, max) { // min and max included 
@@ -77,8 +78,15 @@ class PlayerMain{
                 }
             }
         this.playerState='standingRight'
-        
+        this.stopped=false
+        this.boost=10
+        this.boostOn=false
     }
+        playerBoost(a){
+            if(!this.boostOn){
+                this.boost = this.boost>=100?100: this.boost+a
+            }
+        }
         reSpawn(){
             this.position = {
                 x:this.position.x+ 200,y:100
@@ -117,6 +125,15 @@ class PlayerMain{
                 )  
         }
         update(){
+            if(this.boostOn && (this.forward || this.backward)){
+                if(this.boost < 5){
+                    this.boostOn =false
+                }
+                this.velocity.x = 20
+                this.boost = this.boost>5?this.boost-0.1:5
+            }else{
+                this.velocity.x = 10
+            }
             this.spriteFrame = this.spriteFrame===28?0:this.spriteFrame+1
             if(animationFrame === 5 || animationFrame === 10){
                 this.spriteFrame2 = this.spriteFrame2===20?0:this.spriteFrame2+1
@@ -137,12 +154,15 @@ class PlayerMain{
                     this.velocity.y = 0
                 }
             }
-            if(this.forward && this.position.x <= innerWidth/2){
-                gameProgress += this.velocity.x
-                this.position.x += this.velocity.x
-            }else if(this.backward && this.position.x >= 100 && gameProgress >= 10){
-                gameProgress -= this.velocity.x
-                this.position.x -= this.velocity.x
+
+            if(!this.stopped){
+                if(this.forward && this.position.x <= innerWidth/2){
+                    gameProgress += this.velocity.x
+                    this.position.x += this.velocity.x
+                }else if(this.backward && this.position.x >= 100 && gameProgress >= 10){
+                    gameProgress -= this.velocity.x
+                    this.position.x -= this.velocity.x
+                }
             }
             this.draw()
         }
@@ -183,16 +203,16 @@ class PlayerMain{
     }
     
     class Platform extends Fire{
-        constructor(x,y,random=false){
+        constructor(x,y,random=false,type=null){
             super(0,0)
             this.random = random
             this.platformTypes = [
                 {image:platformImg1,
                 width: 300,
                 height:50},
-                // {image:platformImg2,
-                // width: 380,
-                // height:383},
+                {image:platformImg2,
+                width: 380,
+                height:260},
                 {image:platformImg3,
                 width: 127,
                 height:128},
@@ -200,7 +220,7 @@ class PlayerMain{
                 width: 129,
                 height:126},
             ]
-            this.type = this.random? rand(0,2):0
+            this.type = type !== null? type:rand(0,2)
             this.position={
                 x:x,
                 y:innerHeight*0.74-y
@@ -255,12 +275,19 @@ class PlayerMain{
     class backGround{
         constructor(){
             this.position={
+                scene:{
+                    x:0,
+                    y:0
+                },
+                tree:{
                 x:0,
-                y:110
+                y:180
+                }
             }
         }
         draw(){
-            canv.drawImage(trees,this.position.x,this.position.y)
+            canv.drawImage(backG,this.position.scene.x,this.position.scene.y)
+            canv.drawImage(trees,this.position.tree.x,this.position.tree.y)
         }
     }
 

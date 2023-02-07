@@ -34,11 +34,27 @@
         }
     }
     function updateScoreBoard(){
+        if(collected.coins >= 200){
+            player.life += 1
+            collected.coins = 0
+        }
         document.getElementById('coinCount').innerText = collected.coins
         document.getElementById('life').innerText = player.life
+        document.getElementById('power').style.width = player.boost+'%'
     }  
     function animate(){
         updateScoreBoard()
+        while(g< groundLimit){
+            console.log("added : "+g)
+            let singlePlatform = new Platform(g,0,false,1)
+            if(rand(1,10)===7){
+                singlePlatform.placeObstacle=true
+            }
+            platforms.push(       
+                singlePlatform
+                )
+                g+=300
+            }
         animationFrame=animationFrame===10?0:animationFrame+1
         if(gameProgress >= renderProgress+renderDelay){
             renderDelay = rand(100,600)
@@ -66,25 +82,15 @@
                 }
             
         }
-        while(g< groundLimit){
-            console.log("added : "+g)
-            let singlePlatform = new Platform(g,50)
-            if(rand(1,10)===7){
-                singlePlatform.placeObstacle=true
-            }
-            platforms.push(       
-                singlePlatform
-                )
-                g+=300
-            }
+      
             
         canv.clearRect(0,0,canvas.width*3,canvas.height)
         
-        fireObj.updateFire()
         background.draw()
         platforms.forEach((platform)=>{
             platform.update()
         })
+        fireObj.updateFire()
         collectables.forEach((collectable)=>{
             collectable.update()
         })
@@ -99,7 +105,7 @@
             makeSound('die')
         }
         platforms.forEach((platform)=>{
-        if(player.position.y+player.size.height <= platform.position.y && 
+            if(player.position.y+player.size.height <= platform.position.y && 
            player.position.y+player.size.height+player.velocity.y >= platform.position.y &&
            player.position.x+player.size.width >= platform.position.x &&
            player.position.x+player.velocity.x <= platform.position.x+platform.size.width 
@@ -111,10 +117,25 @@
                         player.position.x += platform.hoverIncrement.x 
                     }
                 }
-                    player.velocity.y=0
-                    
+                player.velocity.y=0
+                
+                
+            }
             
-        }
+            if(player.position.x+player.size.width+player.velocity.x >= platform.position.x 
+                && player.position.x <= platform.position.x+platform.size.width 
+                && player.position.y + player.size.height + player.velocity.y-2 > platform.position.y
+                && player.position.y <= platform.position.y+platform.size.height 
+                ){
+                // console.log("Compare "+platform.type+" -> "+ 
+                // eval(player.position.y + player.size.height +player.velocity.y) +" > "+platform.position.y,
+                // )
+                // player.stopped=true
+            }else{
+                // console.log("Go!")
+            player.stopped=false
+
+            }
         if(platform.placeObstacle &&
            player.position.x+player.size.width+player.velocity.x >= platform.firePosition.x &&
            player.position.x+player.velocity.x <= platform.firePosition.x+platform.fireSize.width &&
@@ -142,6 +163,7 @@
                 delete collectables[collectables.indexOf(collectable)]
                 collectables.length -= 1
                 collected.coins += 10
+                player.playerBoost(5)
                 updateScoreBoard()
                     makeSound('coinTakeSound')
                     
@@ -151,30 +173,33 @@
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
             groundLimit += 300
         }
-        console.log(gameProgress)
-        if(player.forward && player.position.x >= innerWidth/2){
-            
-            collectables.forEach((collectable)=>{
-                collectable.position.x -= player.velocity.x
-            })
+        if(!player.stopped){
+            if(player.forward && player.position.x >= innerWidth/2){
+                
+                collectables.forEach((collectable)=>{
+                    collectable.position.x -= player.velocity.x
+                })
 
-            platforms.forEach((platform)=>{
-                platform.position.x -= player.velocity.x
-            })
-            background.position.x -= player.velocity.x
-            g -= player.velocity.x
-            gameProgress += player.velocity.x
-        }else if(player.backward && player.position.x <= 100 && gameProgress >= 10){
+                platforms.forEach((platform)=>{
+                    platform.position.x -= player.velocity.x
+                })
+                background.position.tree.x -= player.velocity.x
+                background.position.scene.x -= player.velocity.x*0.2
+                g -= player.velocity.x
+                gameProgress += player.velocity.x
+            }else if(player.backward && player.position.x <= 100 && gameProgress >= 10){
 
-            collectables.forEach((collectable)=>{
-                collectable.position.x += player.velocity.x
-            })
-            platforms.forEach((platform)=>{
-                platform.position.x += player.velocity.x
-            })
-            background.position.x += player.velocity.x
-            g+=player.velocity.x
-            gameProgress -= player.velocity.x
+                collectables.forEach((collectable)=>{
+                    collectable.position.x += player.velocity.x
+                })
+                platforms.forEach((platform)=>{
+                    platform.position.x += player.velocity.x
+                })
+                background.position.tree.x += player.velocity.x
+                background.position.scene.x += player.velocity.x*0.2
+                g+=player.velocity.x
+                gameProgress -= player.velocity.x
+            }
         }
         requestAnimationFrame(animate)
     }
@@ -187,6 +212,7 @@
                     player.jump=true
                     player.velocity.y += 50
                 }
+                player.playerBoost(2)
                 makeSound('jump')
                 break
             case 37:
@@ -198,12 +224,14 @@
                 player.playerState = 'runningRight'
                 break
             case 90:
-                player.velocity.x = 20
+                if(player.boost > 5){
+                    player.boostOn=true
+                }
                 // canv.clearRect(0,0,canvas.width,canvas.height)
                 // canv.scale(0.5,0.5)
                 break
             case 65:
-                player.velocity.x = 10
+                    player.boostOn=false
                     // canv.clearRect(0,0,canvas.width,canvas.height)
                 // canv.scale(2,2)
                 break
