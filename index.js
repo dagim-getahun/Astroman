@@ -6,9 +6,6 @@
     const background = new backGround()
     const fireObj = new Fire()
     
-    let platform1 = new Platform(200,300)
-    platform1.hover=true
-    
     const platforms = []
     const collectables = []
     
@@ -98,12 +95,15 @@
         if(player.position.y >= canvas.height*1.2){
             if(player.life === 0){
                 player.dead=true
+                document.getElementById('propmt').classList.remove('hide')
             }else{
                 player.life -=1
                 player.reSpawn()
             }
             makeSound('die')
         }
+        let stoppedF = false;
+        let stoppedB = false;
         platforms.forEach((platform)=>{
             if(player.position.y+player.size.height <= platform.position.y && 
            player.position.y+player.size.height+player.velocity.y >= platform.position.y &&
@@ -122,20 +122,22 @@
                 
             }
             
-            if(player.position.x+player.size.width+player.velocity.x >= platform.position.x 
+            if(player.position.x+player.size.width+20 >= platform.position.x 
                 && player.position.x <= platform.position.x+platform.size.width 
-                && player.position.y + player.size.height + player.velocity.y-2 > platform.position.y
-                && player.position.y <= platform.position.y+platform.size.height 
+                && player.position.y + player.size.height + player.velocity.y-5 > platform.position.y
+                && player.position.y <= platform.position.y+platform.size.height
+                // && platform.position.y < innerHeight*0.74 
                 ){
-                // console.log("Compare "+platform.type+" -> "+ 
-                // eval(player.position.y + player.size.height +player.velocity.y) +" > "+platform.position.y,
-                // )
-                // player.stopped=true
-            }else{
-                // console.log("Go!")
-            player.stopped=false
-
+                    console.log("Compare platform type : "+platform.type+" -> "+ 
+                    player.velocity.x+" > "+platform.position.y,
+                    )
+                if(player.position.x < platform.position.x){
+                    stoppedF=true
+                }else{
+                    stoppedB=true
+                } 
             }
+
         if(platform.placeObstacle &&
            player.position.x+player.size.width+player.velocity.x >= platform.firePosition.x &&
            player.position.x+player.velocity.x <= platform.firePosition.x+platform.fireSize.width &&
@@ -144,6 +146,7 @@
            ){
             if(player.life === 0){
                 player.dead=true
+                document.getElementById('propmt').classList.remove('hide')
             }else{
                 player.life -=1
                 player.reSpawn()
@@ -152,6 +155,9 @@
         }
     }
         )
+        player.stoppedForward=stoppedF
+        player.stoppedBackward=stoppedB
+
         
         collectables.forEach((collectable)=>{
             if(
@@ -170,11 +176,10 @@
                 }
         })
 
-        if(player.forward && Math.abs(groundLimit-gameProgress) <= 500){
+        if(player.forward && Math.abs(groundLimit-gameProgress) <= 500 && !player.stoppedForward){
             groundLimit += 300
         }
-        if(!player.stopped){
-            if(player.forward && player.position.x >= innerWidth/2){
+            if(player.forward && player.position.x >= innerWidth/2 && !player.stoppedForward){
                 
                 collectables.forEach((collectable)=>{
                     collectable.position.x -= player.velocity.x
@@ -187,7 +192,7 @@
                 background.position.scene.x -= player.velocity.x*0.2
                 g -= player.velocity.x
                 gameProgress += player.velocity.x
-            }else if(player.backward && player.position.x <= 100 && gameProgress >= 10){
+            }else if(player.backward && player.position.x <= 100 && gameProgress >= 10 && !player.stoppedBack){
 
                 collectables.forEach((collectable)=>{
                     collectable.position.x += player.velocity.x
@@ -200,7 +205,7 @@
                 g+=player.velocity.x
                 gameProgress -= player.velocity.x
             }
-        }
+        
         requestAnimationFrame(animate)
     }
     animate()

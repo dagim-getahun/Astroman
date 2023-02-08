@@ -45,7 +45,7 @@ class PlayerMain{
             x:10,
             y:10
         }
-        this.life = 5
+        this.life = 1
         this.gravity = 1
         this.jumpAcceleration = 4
         this.jump = false
@@ -78,7 +78,8 @@ class PlayerMain{
                 }
             }
         this.playerState='standingRight'
-        this.stopped=false
+        this.stoppedForward = false
+        this.stoppedBack = false
         this.boost=10
         this.boostOn=false
     }
@@ -155,15 +156,13 @@ class PlayerMain{
                 }
             }
 
-            if(!this.stopped){
-                if(this.forward && this.position.x <= innerWidth/2){
+                if(this.forward && this.position.x <= innerWidth/2 && !this.stoppedForward){
                     gameProgress += this.velocity.x
                     this.position.x += this.velocity.x
-                }else if(this.backward && this.position.x >= 100 && gameProgress >= 10){
+                }else if(this.backward && this.position.x >= 100 && gameProgress >= 10 && !this.stoppedBackward){
                     gameProgress -= this.velocity.x
                     this.position.x -= this.velocity.x
                 }
-            }
             this.draw()
         }
     }
@@ -215,10 +214,10 @@ class PlayerMain{
                 height:260},
                 {image:platformImg3,
                 width: 127,
-                height:128},
+                height:88},
                 {image:platformImg4,
                 width: 129,
-                height:126},
+                height:86},
             ]
             this.type = type !== null? type:rand(0,2)
             this.position={
