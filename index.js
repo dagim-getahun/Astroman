@@ -1,13 +1,25 @@
 // import ground from './platform.png'
 // console.log(ground)
-    const soundEffects = new Sounds()
-    const theCoin = new Collectable() 
-    const player = new PlayerMain()
-    const background = new backGround()
-    const fireObj = new Fire()
+    let soundEffects
+    let theCoin  
+    let player 
+    let background
+    let fireObj 
     
-    const platforms = []
-    const collectables = []
+    let platforms = []
+    let collectables = []
+    
+    function game_init(){
+        soundEffects = new Sounds()
+        theCoin = new Collectable() 
+        player = new PlayerMain()
+        background = new backGround()
+        fireObj = new Fire()
+        
+        platforms = []
+        collectables = []       
+    }
+    game_init()
     
     function rand(min, max) { // min and max included 
         return Math.floor(Math.random() * (max - min + 1) + min)

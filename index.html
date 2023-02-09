@@ -18,12 +18,13 @@
         <img src="heart.png" style="width:30px;height:30px"/>
         x <span id="life"></span>
     </div>
-<!-- </div>            
+</div>            
+
         <div class="game-promt hide" id="propmt">
             <h1>Finn</h1>
             <img src="player.png"/>
             <button onclick='hidePropmt()' >Play</button>
-        </div> -->
+        </div>
 <canvas id="screen"></canvas>
 <img src="background-mountain-loop.png" id="backG" class="hide"/>
 <img src="platform.png" id="platform-1" class="hide"/>
@@ -46,9 +47,22 @@
 function hidePropmt(){
         document.getElementById('propmt').classList.add('hide')
         player.dead = false
-        player.position = {x:0,y:0}
-        // canv.filter = 'blur(0px)'
+        // player.position = {x:100,y:0}
+
+        platforms = []
+        collectables = []
+        g = 0
+        groundLimit = 2500
+        gameProgress=0;
+        renderProgress=2000;
+        renderDelay = rand(100,600)
+        hole = rand(150,300)
+        collected = {
+            coins:0
+        }
+        game_init()
     }
+
 </script>
 <script  src="./classes.js"></script>
 <script  src="./index.js"></script>
