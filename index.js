@@ -52,6 +52,7 @@
         document.getElementById('power').style.width = player.boost+'%'
     }  
     function animate(){
+        console.log(gameProgress, background.position.scene.x)
         updateScoreBoard()
         while(g< groundLimit){
             console.log("added : "+g)
@@ -110,6 +111,7 @@
                 document.getElementById('propmt').classList.remove('hide')
             }else{
                 player.life -=1
+                gameProgress += 200
                 player.reSpawn()
             }
             makeSound('die')
@@ -161,6 +163,7 @@
                 document.getElementById('propmt').classList.remove('hide')
             }else{
                 player.life -=1
+                gameProgress += 200
                 player.reSpawn()
             }
             makeSound('die')

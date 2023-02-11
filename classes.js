@@ -278,16 +278,50 @@ class PlayerMain{
                     x:0,
                     y:0
                 },
+                nextScene:{
+                    x:0,
+                    y:0
+                },
                 tree:{
                 x:0,
                 y:180
                 }
             }
+            this.width = 3839
+            this.backgrounds = {
+                main: {
+                    image: backG,
+                    width:3839
+                },
+                next: {
+                    image: backG,
+                    width:3839
+                } 
+            }
         }
+
         draw(){
-            canv.drawImage(backG,this.position.scene.x,this.position.scene.y)
+            
             canv.drawImage(trees,this.position.tree.x,this.position.tree.y)
+            
+            console.log("Back g", Math.abs(this.position.scene.x), this.width*0.7)
+            
+
+            canv.drawImage(this.backgrounds.main.image,this.position.scene.x,this.position.scene.y) //1
+            
+            if(Math.abs(this.position.scene.x) >= this.backgrounds.main.width*0.1){
+                canv.drawImage(this.backgrounds.next.image,this.position.scene.x+this.backgrounds.main.width,this.position.scene.y) //2
+            }
+            if(this.position.scene.x+this.backgrounds.main.width <= 0){
+                this.position.scene.x += this.backgrounds.main.width-2 
+                this.backgrounds = {
+                                main: this.backgrounds.next, 
+                                next: this.backgrounds.main
+                            }
+                
+            }
         }
+        
     }
 
     class Collectable{
