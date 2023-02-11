@@ -57,7 +57,7 @@
         while(g< groundLimit){
             // console.log("added : "+g)
             let singlePlatform = new Platform(g,0,false,1)
-            if(rand(1,10)===7){
+            if(rand(1,10)===7 && g > 1200){
                 singlePlatform.placeObstacle=true
             }
             platforms.push(       
