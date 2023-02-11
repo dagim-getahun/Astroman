@@ -82,6 +82,8 @@ class PlayerMain{
         this.stoppedBack = false
         this.boost=10
         this.boostOn=false
+        this.flashAnimateTimer = 75
+        this.reSpawning = false
     }
         playerBoost(a){
             if(!this.boostOn){
@@ -89,17 +91,16 @@ class PlayerMain{
             }
         }
         reSpawn(){
-            this.position = {
-                x:this.position.x+ 200,y:100
-            }
+                this.position = {
+                    x:this.position.x+ 200,y:100
+                }
         }
         draw(){
-            // canv.fillStyle='grey'
-            // canv.fillRect(this.position.x,this.position.y,this.size.width,this.size.height)
             const width=177
             if(this.dead){
                 this.die()
-            }else{
+            }else if(this.flashAnimateTimer === 75){
+                this.reSpawning = false
                 canv.drawImage(this.playerAnimation[this.playerState].image,
                     this.playerAnimation[this.playerState].cropWidth *this.spriteFrame,
                     0,
@@ -156,10 +157,10 @@ class PlayerMain{
                 }
             }
 
-                if(this.forward && this.position.x <= innerWidth/2 && !this.stoppedForward){
+                if(this.forward && this.position.x <= innerWidth/2 && !this.stoppedForward && !player.reSpawning){
                     gameProgress += this.velocity.x
                     this.position.x += this.velocity.x
-                }else if(this.backward && this.position.x >= 100 && gameProgress >= 10 && !this.stoppedBackward){
+                }else if(this.backward && this.position.x >= 100 && gameProgress >= 10 && !this.stoppedBackward && !player.reSpawning){
                     gameProgress -= this.velocity.x
                     this.position.x -= this.velocity.x
                 }
@@ -304,7 +305,7 @@ class PlayerMain{
             
             canv.drawImage(trees,this.position.tree.x,this.position.tree.y)
             
-            console.log("Back g", Math.abs(this.position.scene.x), this.width*0.7)
+            // console.log("Back g", Math.abs(this.position.scene.x), this.width*0.7)
             
 
             canv.drawImage(this.backgrounds.main.image,this.position.scene.x,this.position.scene.y) //1

@@ -52,10 +52,10 @@
         document.getElementById('power').style.width = player.boost+'%'
     }  
     function animate(){
-        console.log(gameProgress, background.position.scene.x)
+        // console.log(gameProgress, background.position.scene.x)
         updateScoreBoard()
         while(g< groundLimit){
-            console.log("added : "+g)
+            // console.log("added : "+g)
             let singlePlatform = new Platform(g,0,false,1)
             if(rand(1,10)===7){
                 singlePlatform.placeObstacle=true
@@ -113,6 +113,7 @@
                 player.life -=1
                 gameProgress += 200
                 player.reSpawn()
+                
             }
             makeSound('die')
         }
@@ -142,9 +143,9 @@
                 && player.position.y <= platform.position.y+platform.size.height
                 // && platform.position.y < innerHeight*0.74 
                 ){
-                    console.log("Compare platform type : "+platform.type+" -> "+ 
-                    player.velocity.x+" > "+platform.position.y,
-                    )
+                    // console.log("Compare platform type : "+platform.type+" -> "+ 
+                    // player.velocity.x+" > "+platform.position.y,
+                    // )
                 if(player.position.x < platform.position.x){
                     stoppedF=true
                 }else{
@@ -162,9 +163,18 @@
                 player.dead=true
                 document.getElementById('propmt').classList.remove('hide')
             }else{
-                player.life -=1
-                gameProgress += 200
-                player.reSpawn()
+                
+                console.log(player.flashAnimateTimer)
+                if(player.flashAnimateTimer > 0){
+                    player.reSpawning=true
+                    player.die()
+                    player.flashAnimateTimer -= 1
+                }else{
+                    player.flashAnimateTimer = 75
+                    player.life -=1
+                    gameProgress += 200
+                    player.reSpawn()
+                }
             }
             makeSound('die')
         }
@@ -194,7 +204,7 @@
         if(player.forward && Math.abs(groundLimit-gameProgress) <= 500 && !player.stoppedForward){
             groundLimit += 300
         }
-            if(player.forward && player.position.x >= innerWidth/2 && !player.stoppedForward){
+            if(player.forward && player.position.x >= innerWidth/2 && !player.stoppedForward && !player.reSpawning){
                 
                 collectables.forEach((collectable)=>{
                     collectable.position.x -= player.velocity.x
@@ -204,10 +214,10 @@
                     platform.position.x -= player.velocity.x
                 })
                 background.position.tree.x -= player.velocity.x
-                background.position.scene.x -= player.velocity.x*0.2
+                background.position.scene.x -= player.velocity.x*1
                 g -= player.velocity.x
                 gameProgress += player.velocity.x
-            }else if(player.backward && player.position.x <= 100 && gameProgress >= 10 && !player.stoppedBack){
+            }else if(player.backward && player.position.x <= 100 && gameProgress >= 10 && !player.stoppedBack && !player.reSpawning){
 
                 collectables.forEach((collectable)=>{
                     collectable.position.x += player.velocity.x
@@ -216,7 +226,7 @@
                     platform.position.x += player.velocity.x
                 })
                 background.position.tree.x += player.velocity.x
-                background.position.scene.x += player.velocity.x*0.2
+                background.position.scene.x += player.velocity.x*1
                 g+=player.velocity.x
                 gameProgress -= player.velocity.x
             }
@@ -225,7 +235,7 @@
     }
     animate()
     addEventListener('keydown',(event)=>{
-        if(!player.dead){
+        if(!player.dead && !player.reSpawning){
             switch(event.keyCode){
                 case 38:
                 if(player.velocity.y === 0){
@@ -259,7 +269,7 @@
             }
             })
             addEventListener('keyup',(event)=>{
-                if(!player.dead){
+                if(!player.dead && !player.reSpawning){
                     switch(event.keyCode){
                         case 37:
                     player.backward=false
