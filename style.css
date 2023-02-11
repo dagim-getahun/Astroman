@@ -34,9 +34,8 @@ body{
     left: 25%;
     border-radius: 20px;
     width: 50%;
-    height: 300px;
-    background-color: #58bab3;
-    opacity: 0.6;
+    min-height: 300px;
+    background-color: rgba(88, 186, 179,0.5);
     z-index: 5;
     border: 4px solid white;
     box-shadow: 2px 2px 8px rgb(116, 116, 116);
@@ -44,32 +43,77 @@ body{
     font-family: Arial, Helvetica, sans-serif;
     color: white;
     display: block;
+    padding-top:20px;
 }
 .game-promt.hide{
     top: -50%;
     transition: 500ms;
     /* display: none; */
 }
-.game-promt > button{
-    width: 200px;
-    height: 40px;
-    background-color: rgb(26, 175, 26);
-    border-radius: 8px;
+.game-promt > div > h3{
+    color: rgb(241, 99, 99);
+    font-weight: bold !important;
+    font-size: 40px;
+}
+.game-promt > div > button{
+    width: 260px;
+    height: 150px;
+    background-color: #6aace6;
+    border-radius: 25px;
     border: none;
     color: white;
     font-size: 20px;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
     cursor: pointer;
     transition: 500ms;
-    box-shadow: 2px 2px 8px black;
+    box-shadow: 2px 2px 5px #b0b0b0;
     position: absolute;
-    bottom: 10px;
-    left: calc(50% - 100px);
+    top: 130px;
+    left: calc(50% - 130px);
 }
-.game-promt > button:hover{
-    box-shadow: 2px 2px 15px black;
+.game-promt > div > button:hover{
+    box-shadow: 2px 2px 18px #b0b0b0;
 }
-.game-promt > img{
+.game-promt > div > button > img{
     width: 55px;
+    filter: drop-shadow(2px 5px 8px rgb(0, 82, 154));
+}
+.controls{
+    position: absolute;
+    top:30px;
+    left:0;
+    width:30%;
+    height: 100%;
+    /* background: red; */
+}
+.controls > span >  img{
+    width: 70px;
+}
+.vertical-line{
+    height: 90%;
+    border: 1px solid white;
+}
+h1.logo{
+    position: relative;
+    top: -70px;
+    width: 400px;
+    left: calc(50% - 200px);
+    background-color: #67c4c7;
+    border-radius: 20px;
+    height: 80px;
+    border: 4px solid white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-family: Arial, Helvetica, sans-serif;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
+    font-size: 30px;
+    margin-top: 20px;
+    /* text-shadow: 0px 0px 20px blue */
 }
 .lightning{
     width: 50% !important;

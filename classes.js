@@ -141,7 +141,7 @@ class PlayerMain{
                 this.spriteFrame2 = this.spriteFrame2===20?0:this.spriteFrame2+1
             }
 
-            if(this.jump){
+            if(this.jump && !this.reSpawning){
                 this.position.y -= this.velocity.y
                 if(this.velocity.y > 0 && this.position.y+this.size.height+this.velocity.y >= canvas.height-this.jumpHeight){
                     this.velocity.y -= this.jumpAcceleration
@@ -303,11 +303,9 @@ class PlayerMain{
 
         draw(){
             
-            canv.drawImage(trees,this.position.tree.x,this.position.tree.y)
             
-            // console.log("Back g", Math.abs(this.position.scene.x), this.width*0.7)
             
-
+            
             canv.drawImage(this.backgrounds.main.image,this.position.scene.x,this.position.scene.y) //1
             
             if(Math.abs(this.position.scene.x) >= this.backgrounds.main.width*0.1){
@@ -321,6 +319,7 @@ class PlayerMain{
                             }
                 
             }
+            canv.drawImage(trees,this.position.tree.x,this.position.tree.y)
         }
         
     }

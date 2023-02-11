@@ -8,7 +8,8 @@
     
     let platforms = []
     let collectables = []
-    
+    let gameActive = false
+
     function game_init(){
         soundEffects = new Sounds()
         theCoin = new Collectable() 
@@ -36,6 +37,7 @@
         coins:0
     }
     function makeSound(sound){
+        return false
         if(soundEffects[sound].currentTime > 0){
             soundEffects[sound].currentTime = 0
         }else{
@@ -51,6 +53,16 @@
         document.getElementById('life').innerText = player.life
         document.getElementById('power').style.width = player.boost+'%'
     }  
+    function unhideElement(a){
+        if(document.getElementById(a).classList.contains('hide')){
+            document.getElementById(a).classList.remove('hide')
+        }
+    } 
+    function hideElement(a){
+        if(!document.getElementById(a).classList.contains('hide')){
+            document.getElementById(a).classList.add('hide')
+        }
+    } 
     function animate(){
         // console.log(gameProgress, background.position.scene.x)
         updateScoreBoard()
@@ -108,6 +120,9 @@
         if(player.position.y >= canvas.height*1.2){
             if(player.life === 0){
                 player.dead=true
+                unhideElement('gameover')
+                hideElement('controls')
+                document.getElementById('btn-play').innerText = 'REPLAY'
                 document.getElementById('propmt').classList.remove('hide')
             }else{
                 player.life -=1
@@ -161,6 +176,9 @@
            ){
             if(player.life === 0){
                 player.dead=true
+                unhideElement('gameover')
+                hideElement('controls')
+                document.getElementById('btn-play').innerText = 'REPLAY'
                 document.getElementById('propmt').classList.remove('hide')
             }else{
                 
@@ -235,7 +253,7 @@
     }
     animate()
     addEventListener('keydown',(event)=>{
-        if(!player.dead && !player.reSpawning){
+        if(!player.dead && !player.reSpawning && gameActive){
             switch(event.keyCode){
                 case 38:
                 if(player.velocity.y === 0){
@@ -269,7 +287,7 @@
             }
             })
             addEventListener('keyup',(event)=>{
-                if(!player.dead && !player.reSpawning){
+                if(!player.dead && !player.reSpawning && gameActive){
                     switch(event.keyCode){
                         case 37:
                     player.backward=false

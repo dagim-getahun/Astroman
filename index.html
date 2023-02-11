@@ -20,11 +20,26 @@
     </div>
 </div>            
 
-        <div class="game-promt hide" id="propmt">
-            <h1>Finn</h1>
-            <h3>Game Over</h3>
-            <img src="player.png"/>
-            <button onclick='hidePropmt()' >Play</button>
+        <div class="game-promt" id="propmt">
+            <h1 class="logo">ASTROMAN</h1>
+            <div style="margin-top:-100px">
+                <h3 class="hide" id="gameover">GAME OVER</h3>
+                <button onclick='hidePropmt()' >
+                    <img src="player.png"/>
+                    <div class="vertical-line"></div>
+                    <span id="btn-play">PLAY</span>
+                </button>
+            </div>
+            <div class="controls once" id="controls">
+                <span>
+                    <h4>Direction controls</h4>
+                    <img src="btn-direction.png"/>
+                </span>
+                <span>
+                    <h4>Boost ON/OFF</h4>
+                    <img src="tab.png" style="width:30px"/>
+                </span>
+            </div>
         </div>
 <canvas id="screen"></canvas>
 <img src="background-mountain-loop.png" id="backG" class="hide"/>
@@ -48,6 +63,7 @@
 function hidePropmt(){
         document.getElementById('propmt').classList.add('hide')
         player.dead = false
+        gameActive = true
         // player.position = {x:100,y:0}
 
         platforms = []
