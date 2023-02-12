@@ -21,7 +21,9 @@
 </div>            
 
         <div class="game-promt" id="propmt">
-            <h1 class="logo">ASTROMAN</h1>
+            <div class="logo">
+                <img src="astroman.png"/>
+            </div>
             <div style="margin-top:-100px">
                 <h3 class="hide" id="gameover">GAME OVER</h3>
                 <button onclick='hidePropmt()' >
@@ -63,21 +65,24 @@
 function hidePropmt(){
         document.getElementById('propmt').classList.add('hide')
         player.dead = false
-        gameActive = true
         // player.position = {x:100,y:0}
-
-        platforms = []
-        collectables = []
-        g = 0
-        groundLimit = 2500
-        gameProgress=0;
-        renderProgress=2000;
-        renderDelay = rand(100,600)
-        hole = rand(150,300)
-        collected = {
-            coins:0
+        gameActive = true
+        if(gameProgress > 0){
+            platforms = []
+            collectables = []
+            g = 0
+            groundLimit = 2500
+            gameProgress=0;
+            renderProgress=2000;
+            renderDelay = rand(100,600)
+            hole = rand(150,300)
+            collected = {
+                coins:0
+            }
+            game_init()
         }
-        game_init()
+            
+        
     }
 
 </script>

@@ -91,6 +91,8 @@ class PlayerMain{
             }
         }
         reSpawn(){
+            this.forward = false 
+            this.backward = false
                 this.position = {
                     x:this.position.x+ 200,y:100
                 }
