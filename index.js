@@ -272,16 +272,11 @@
                 player.playerState = 'runningRight'
                 break
             case 90:
-                if(player.boost > 5){
+                if(player.boost > 5 && !player.boostOn){
                     player.boostOn=true
-                }
-                // canv.clearRect(0,0,canvas.width,canvas.height)
-                // canv.scale(0.5,0.5)
-                break
-            case 65:
+                }else{
                     player.boostOn=false
-                    // canv.clearRect(0,0,canvas.width,canvas.height)
-                // canv.scale(2,2)
+                }
                 break
                 }
             }
