@@ -138,3 +138,18 @@ body{
     height: 15px;
     background:linear-gradient(90deg, rgba(1,179,247,1) 0%, rgba(199,226,236,1) 92%);
 }
+.credit{
+    position: absolute;
+    right: 0;
+    top: 30%;
+    width: 300px;
+}
+.credit > h3{
+    font-size: 12px !important;
+    color: white !important;
+}
+.credit > img{
+    width: 50px;
+    border-radius: 50%;
+    border: 1px solid white;
+}

@@ -7,57 +7,64 @@
 <div class="score-board">
     <div class="lightning">
         <div class="progress" id="power" style="width: 50%;">
-            <img src="power.png" style="width:30px;height:30px"/>
+            <img src="images/power.png" style="width:30px;height:30px"/>
         </div>
     </div>
     <div>
-        <img src="coin.png" style="width:30px;height:30px"/>
+        <img src="images/coin.png" style="width:30px;height:30px"/>
         x <span id="coinCount">0</span>
     </div>
     <div>
-        <img src="heart.png" style="width:30px;height:30px"/>
+        <img src="images/heart.png" style="width:30px;height:30px"/>
         x <span id="life"></span>
     </div>
 </div>            
 
         <div class="game-promt" id="propmt">
             <div class="logo">
-                <img src="astroman.png"/>
+                <img src="images/astroman.png"/>
             </div>
             <div style="margin-top:-100px">
                 <h3 class="hide" id="gameover">GAME OVER</h3>
                 <button onclick='hidePropmt()' >
-                    <img src="player.png"/>
+                    <img src="images/player.png"/>
                     <div class="vertical-line"></div>
                     <span id="btn-play">PLAY</span>
                 </button>
             </div>
+            <!-- <div class="credit">
+                <img src="images/profile.png"/>
+                <h3>By: Dagim Getaun</h3> 
+                <div>
+                    <span></span>
+                </div>
+            </div> -->
             <div class="controls once" id="controls">
                 <span>
                     <h4>Direction controls</h4>
-                    <img src="btn-direction.png"/>
+                    <img src="images/btn-direction.png"/>
                 </span>
                 <span>
                     <h4>Boost ON/OFF</h4>
-                    <img src="tab.png" style="width:30px"/>
+                    <img src="images/tab.png" style="width:30px"/>
                 </span>
             </div>
         </div>
 <canvas id="screen"></canvas>
-<img src="background-mountain-loop.png" id="backG" class="hide"/>
-<img src="platform.png" id="platform-1" class="hide"/>
-<img src="platform-tall.png" id="platform-2" class="hide"/>
-<img src="small-platform-left.png" id="platform-3" class="hide"/>
-<img src="small-platform-right.png" id="platform-4" class="hide"/>
+<img src="images/background-mountain-loop.png" id="backG" class="hide"/>
+<img src="images/platform.png" id="platform-1" class="hide"/>
+<img src="images/platform-tall.png" id="platform-2" class="hide"/>
+<img src="images/small-platform-left.png" id="platform-3" class="hide"/>
+<img src="images/small-platform-right.png" id="platform-4" class="hide"/>
 
-<img src="standRight.png" id="standing" class="hide"/>
-<img src="standLeft.png" id="standingL" class="hide"/>
-<img src="runRight.png" id="running" class="hide"/>
-<img src="runLeft.png" id="runningL" class="hide"/>
-<img src="hills.png" id="tree" class="hide"/>
-<img src="fire.png" id="fire" class="hide"/>
-<img src="coin.png" id="coin" class="hide"/>
-<img src="dead.png" id="dead" class="hide"/>
+<img src="images/standRight.png" id="standing" class="hide"/>
+<img src="images/standLeft.png" id="standingL" class="hide"/>
+<img src="images/runRight.png" id="running" class="hide"/>
+<img src="images/runLeft.png" id="runningL" class="hide"/>
+<img src="images/hills.png" id="tree" class="hide"/>
+<img src="images/fire.png" id="fire" class="hide"/>
+<img src="images/coin.png" id="coin" class="hide"/>
+<img src="images/dead.png" id="dead" class="hide"/>
 
 <!-- <audio src="sounds/success.mp3" class="hide" id="success"></audio> -->
 <script>
