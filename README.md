@@ -9,4 +9,7 @@
 <p>Directions and Jumping with keyboard arrow</p>
 <p>Speed Boost on and off toggle with Z</p>
 
+<p>The game is composed of a randomly generated obstacles that the player need to avoid and travel as far as possible.</p>
+
+
 <h3>Enjoy! and feel free to a give feed back</h3>
