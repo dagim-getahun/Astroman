@@ -14,4 +14,4 @@
 
 <h3>Enjoy! and feel free to a give feed back</h3>
 
-https://dagim-getahun.github.io/astroman/
+https://dagim-getahun.github.io/Astroman/
